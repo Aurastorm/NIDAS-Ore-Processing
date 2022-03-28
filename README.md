@@ -58,7 +58,7 @@
     edit descriptions.lua
     ```
  ![desc](desc.png)
-* Same as before, add a comma to the last entry in `descriptions` and add the following line as the next line:
+* Same as before, add a comma to the last entry in `descriptions` and add the following line after it:
     ```
     OreProcessing = "Automatically sorts incoming ores into their respective configurable ore processing lines."
     ```
