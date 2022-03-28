@@ -7,8 +7,8 @@
 * Provides in-game disableable help text to assist in setup
 
 ## Setup
- First, ensure that you have the NIDAS dev branch installed on your OpenComputer.
-* Download the `setup` file through the OC shell:
+ First, ensure that you have the NIDAS dev branch installed on your OpenComputer:
+* Download NIDAS's `setup` file through the OC shell:
     ```
     wget https://raw.githubusercontent.com/S4mpsa/NIDAS/master/setup.lua -f
     ```
