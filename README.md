@@ -28,7 +28,7 @@
  Your computer will then restart and you should see the `Ore Processing` module in the `Available Modules` list to be activated and configured.
 
 ## Alternate Setup 
- If using the NIDAS Ore Processing setup file breaks things in your NIDAS install for some reason or if you've (or Sampsa) already added another module to NIDAS, you may need to manually install the module yourself. Here's how:
+ If using the NIDAS Ore Processing setup file breaks things in your NIDAS install for some reason or if you (or Sampsa) already added another module to NIDAS, you may need to manually install the module yourself. Here's how:
 
 * Install NIDAS as before.
 * Navigate to the modules folder (click the `Shell` button to access the shell):
