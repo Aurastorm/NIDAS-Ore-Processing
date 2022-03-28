@@ -51,8 +51,7 @@
 * Add a comma to the last entry in `modules` and add the line:
     ```
     {name = "Ore Processing", module = "modules.tools.OreProcessing", desc = descriptions.OreProcessing}
-    ```
- as the line after that.
+    ```as the line after that.
 * Save (Ctrl-S) and quit (Ctrl-W) and open the `descriptions.lua` file:
     ```
     edit descriptions.lua
