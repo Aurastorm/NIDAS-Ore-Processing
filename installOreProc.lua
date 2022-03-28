@@ -30,4 +30,5 @@ if fileContent[8] ~= "    OreProcessing = \"Automatically sorts incoming ores in
     end
     io.close(file)
 end
+require("shell").execute("wget https://raw.githubusercontent.com/Aurastorm/NIDAS-Ore-Processing/main/OreProcessing.lua /home/NIDAS/modules/tools/OreProcessing.lua -f")
 require("computer").shutdown(true)
