@@ -225,7 +225,7 @@ local function addPage()
         {text = "6: Gem Sifting"},
         {text = "7: Special Uses"}
     }
-    gui.multiLineText(1, 7, information, colors.white)
+    gui.multiLineText(1, 12, information, colors.white)
     gui.multiAttributeList(middle + 16, 7, editor, nameInput, attributeData, input)
 
     shouldListen.listen = true
