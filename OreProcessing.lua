@@ -63,7 +63,9 @@ local function load()
     if file then
         oreAddr = serialization.unserialize(file:read("*a")) or {}
         file:close()
-        transposer = {component.proxy(component.get(oreAddr[1])), component.proxy(component.get(oreAddr[2]))} or {}
+        if oreAddr[1] and oreAddr[2] then
+            transposer = {component.proxy(component.get(oreAddr[1])), component.proxy(component.get(oreAddr[2]))}
+        end
         orientation = oreAddr[3] or "North"
     end
 end
