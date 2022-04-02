@@ -155,12 +155,12 @@ local function pagePrep()
     context.gpu.fill(middle + 1, 1, context.width - middle, context.height - 2, " ")
 end
 
+--first arg is ignored, as it's the signal name
 local function saveButton(_, mode)
     local context = graphics.context()
     local savemode
     local name = input["name"]
     local filter = input["filter"]
-    print(mode)
     if mode == "save" then
         savemode = addFilter
     elseif mode == "modify" then
@@ -225,15 +225,15 @@ local function addPage()
         {text = "6: Gem Sifting"},
         {text = "7: Special Uses"}
     }
-    gui.multiLineText(1, 12, information, colors.white)
+    gui.multiLineText(1, 7, information, colors.white)
     gui.multiAttributeList(middle + 16, 7, editor, nameInput, attributeData, input)
 
     shouldListen.listen = true
     savingMode = "save"
     table.insert(pageBuffer, nameInput)
-    event.listen("filter_manipulation", saveButton)
     context.gpu.setActiveBuffer(0)
-
+    event.listen("filter_manipulation", saveButton)
+    
     cancelButton()
     renderer.update()
 end
