@@ -215,9 +215,8 @@ local function addPage()
          {name = "", attribute = "name", type = "string", defaultValue = "None"},
          {name = "", attribute = "filter", type = "number", defaultValue = "None"}
     }
-    gui.multiAttributeList(middle + 16, 7, editor, nameInput, attributeData, input)
     local information = {
-        {text = "The available filters are as follows:", color = colors.white},
+        {text = "The available filters are as follows:"},
         {text = "1: Primary Byproduct"},
         {text = "2: Ore Washer Purification (Secondary Byproduct)"},
         {text = "3: Chemical Bath Purification Using Mercury (Secondary BP)"},
@@ -226,7 +225,8 @@ local function addPage()
         {text = "6: Gem Sifting"},
         {text = "7: Special Uses"}
     }
-    gui.multiLineText(1, 12, information, colors.white)
+    gui.multiLineText(1, 7, information, colors.white)
+    gui.multiAttributeList(middle + 16, 7, editor, nameInput, attributeData, input)
 
     shouldListen.listen = true
     savingMode = "save"
