@@ -63,8 +63,8 @@ local function load()
     if file then
         oreAddr = serialization.unserialize(file:read("*a")) or {}
         file:close()
-        transposer = {component.proxy(component.get(oreAddr[1])), component.proxy(component.get(oreAddr[2]))}
-        orientation = oreAddr[3]
+        transposer = {component.proxy(component.get(oreAddr[1])), component.proxy(component.get(oreAddr[2]))} or {}
+        orientation = oreAddr[3] or "North"
     end
 end
 
@@ -536,6 +536,9 @@ end
 local function checkInventory(inventory)
     local output
     local toUse
+    if transposer[1] == nil or transposer[2] == nil then
+        return nil
+    end
     if inventory == 0 then
         output = transposer[1].getStackInSlot(transposerSides["work"][1], 1)
     elseif inventory <= 3 or inventory == 8 then
