@@ -226,7 +226,7 @@ local function addPage()
         {text = "7: Special Uses"}
     }
     gui.multiLineText(1, 7, information, colors.white)
-    gui.multiAttributeList(middle + 16, 7, editor, nameInput, attributeData, input)
+    gui.multiAttributeList(middle + 16, 7, editor, nameInput, attributeData, input, _, context.width - middle + 16)
 
     shouldListen.listen = true
     savingMode = "save"
@@ -273,7 +273,7 @@ local function modifyPage(id)
     }
     information[filter.filter + 1].color = gui.primaryColor()
     gui.multiLineText(1, 7, information, gui.borderColor())
-    gui.multiAttributeList(middle + 16, 8, editor, nameInput, attributeData, input)
+    gui.multiAttributeList(middle + 16, 8, editor, nameInput, attributeData, input, _, context.width - middle + 16)
     shouldListen.listen = true
     savingMode = "modify"
     event.listen("filter_manipulation", saveButton)
