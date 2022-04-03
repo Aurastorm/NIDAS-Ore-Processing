@@ -12,7 +12,7 @@ local sides = require("sides")
 local transposer = {}
 drawn = false
 local idPages
-local oreAddr = {}
+local oreAddr = {help = true}
 local oreFilters = {}
 local search = {}
 local windowRefresh
@@ -356,6 +356,8 @@ local function aboutPage()
         {text = "extraction is highly recommended."},
         {text = "Select your transposers and orientation in the config", color = gui.primaryColor()},
         {text = "window based on the diagram. 1 is left, 2 is right.", color = gui.primaryColor()},
+        {text = "You cannot add filters or run this module until the", color = colors.red},
+        {text = "transposers are set up and identified in the config.", color = colors.red},
         {},
         {text = "This info can be disabled by disabling \"Setup Assistance\".", color = gui.borderColor()}
     }
