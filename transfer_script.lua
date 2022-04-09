@@ -17,7 +17,6 @@ for k, v in pairs(filters) do
         term.clearLine()
     end
 end
-term.setCursor(1, 2)
 print("Editing complete! Saving...")
 local file = io.open("/home/NIDAS/settings/oreFilters", "w")
 file:write(serialization.serialize(filters))
