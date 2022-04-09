@@ -81,13 +81,13 @@ local function filterByLabel(data, keyword)
 end
 
 local function searchFilter(keyword)
-    if type(keyword) == "string" then
+    if type(keyword) == string then
         for ID, entry in pairs(oreFilters) do
             if entry.name == keyword then
                 return ID
             end
         end
-    elseif type(keyword) == "number" then
+    elseif type(keyword) == number then
         for ID, entry in pairs(oreFilters) do
             if entry.damage == keyword then
                 return ID
