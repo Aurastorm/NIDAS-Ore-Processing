@@ -1,7 +1,7 @@
 local term = require("term")
 local serialization = require("serialization")
 local file = io.open("/home/NIDAS/settings/oreFilters")
-local filters = serialization.unserialize(file)
+local filters = serialization.unserialize(file:read("*a"))
 file:close()
 term.clear()
 print("Editing /home/NIDAS/settings/oreFilters...")
