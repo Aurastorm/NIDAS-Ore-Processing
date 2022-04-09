@@ -7,11 +7,11 @@ term.clear()
 print("Editing /home/NIDAS/settings/oreFilters...")
 for k, v in pairs(filters) do
     if not v.damage then
-        term.setCursor(2, 1)
+        term.setCursor(1, 2)
         io.write("Regarding \"", v.name, "\"...", "\nEnter its damage value: ")
         v.damage = term.read()
         term.clearLine()
-        term.setCursor(2, 1)
+        term.setCursor(1, 2)
         term.clearLine()
     end
 end
