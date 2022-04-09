@@ -7,7 +7,6 @@ term.clear()
 print("Editing /home/NIDAS/settings/oreFilters...")
 for k, v in pairs(filters) do
     if not v.damage then
-        term.setCursor(1, 2)
         io.write("Regarding \"", v.name, "\"...", "\nEnter its damage value: ")
         local input = term.read()
         input = string.gsub(input, "\n", "")
@@ -18,6 +17,7 @@ for k, v in pairs(filters) do
         term.clearLine()
     end
 end
+term.setCursor(1, 2)
 print("Editing complete! Saving...")
 local file = io.open("/home/NIDAS/settings/oreFilters", "w")
 file:write(serialization.serialize(filters))
