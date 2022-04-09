@@ -10,9 +10,9 @@ local event = require("event")
 local sides = require("sides")
 
 local transposer = {}
-drawn = false
+local drawn = false
 local idPages
-local oreAddr = {help = true}
+local oreAddr = {help = true, legacy = false}
 local oreFilters = {}
 local search = {}
 local windowRefresh
@@ -81,17 +81,25 @@ local function filterByLabel(data, keyword)
 end
 
 local function searchFilter(keyword)
-    for ID, entry in pairs(oreFilters) do
-        if entry.name == keyword then
-            return ID
+    if type(keyword) == "string" then
+        for ID, entry in pairs(oreFilters) do
+            if entry.name == keyword then
+                return ID
+            end
+        end
+    elseif type(keyword) == "number" then
+        for ID, entry in pairs(oreFilters) do
+            if entry.damage == keyword then
+                return ID
+            end
         end
     end
     return false
 end
 
-local function addFilter(name, filter)
+local function addFilter(name, filter, damage)
     if not searchFilter(name) then
-        table.insert(oreFilters, {name = name, filter = filter})
+        table.insert(oreFilters, {name = name, damage = damage, filter = filter})
         save()
         refreshFilters(searchKey.keyword)
         return true
@@ -209,8 +217,8 @@ local function addPage()
     table.insert(pageBuffer, editor)
     context.gpu.setActiveBuffer(editor)
     graphics.text(math.floor(length / 2) - 6, 1, "Filter Entry", gui.primaryColor())
-    graphics.text(1, 7, "Filter Name:", colors.white)
-    graphics.text(1, 9, "Filter Output:", colors.white)
+    graphics.text(1, 4, "Filter Name:", colors.white, true)
+    graphics.text(1, 5, "Filter Output:", colors.white, true)
     local attributeData = {
          {name = "", attribute = "name", type = "string", defaultValue = "None"},
          {name = "", attribute = "filter", type = "number", defaultValue = "None"}
@@ -225,6 +233,13 @@ local function addPage()
         {text = "6: Gem Sifting"},
         {text = "7: Special Uses"}
     }
+    if oreAddr.legacy then
+        table.insert(information, {},{text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()},{text = "For GT++ ores: enter 0 for damage"})
+        graphics.text(1, 6, "Damage Value:", colors.white, true)
+        table.insert(attributeData, {name = "", attribute = "damage", type = "number", defaultValue = "None"})
+    else
+        input["damage"] = 0
+    end
     gui.multiLineText(1, 7, information, colors.white)
     gui.multiAttributeList(middle + 16, 7, editor, nameInput, attributeData, input, _, context.width - middle + 16)
 
@@ -255,12 +270,13 @@ local function modifyPage(id)
     table.insert(pageBuffer, editor)
     context.gpu.setActiveBuffer(editor)
     graphics.text(math.floor(length / 2) - 6, 1, "Filter Entry", gui.primaryColor())
-    graphics.text(1, 7, "Filter Name:   "..(filter.name or "ERROR"), colors.white)
-    graphics.text(1, 9, "Filter Output:", colors.white)
+    graphics.text(1, 4, "Filter Name:   "..(filter.name or "ERROR"), colors.white, true)
+    graphics.text(1, 5, "Filter Output:", colors.white, true)
     local attributeData = {
         {name = "", attribute = "filter", type = "number", defaultValue = filter.filter or "ERROR"}
     }
     input["name"] = filter.name
+    input["damage"] = filter.damage
     local information = {
         {text = "The available filters are as follows:", color = colors.white},
         {text = "1: Primary Byproduct"},
@@ -271,6 +287,10 @@ local function modifyPage(id)
         {text = "6: Gem Sifting"},
         {text = "7: Special Uses"}
     }
+    if oreAddr.legacy then
+        table.insert(information, {},{text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()},{text = "For GT++ ores: enter 0 for damage"})
+        graphics.text(1, 6, "Damage Value:  "..(filter.damage or "ERROR"), colors.white, true)
+    end
     information[filter.filter + 1].color = gui.primaryColor()
     gui.multiLineText(1, 7, information, gui.borderColor())
     gui.multiAttributeList(middle + 16, 8, editor, nameInput, attributeData, input, _, context.width - middle + 16)
@@ -314,6 +334,9 @@ local function page2()
         {text = "It is recommended that you prioritize the recycled items"},
         {text = "over newly incoming ones."}
     }
+    if oreAddr.legacy then
+        table.insert(information, {},{text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()},{text = "Damage values can be found by pressing F3+H or enabling"},{text = "item IDs in NEI. It is the second number."})
+    end
     gui.multiLineText(1, 1, secondPage, colors.white)
     context.gpu.setActiveBuffer(0)
     table.insert(pageBuffer, gui.bigButton(context.width - 12, 1, "Add Filter", addPage))
@@ -477,7 +500,7 @@ local function displayWindow()
     end
     context.gpu.setActiveBuffer(0)
     --function calls to draw extra stuff
-    displayFilters()            --refer to line 466
+    displayFilters(nil)            --refer to line 466
     searchBox()
     aboutPage()
     renderer.update()
@@ -552,11 +575,14 @@ local function checkInventory(inventory)
         output = transposer[2].getStackInSlot(transposerSides[inventory], 1)
         toUse = 2
     end
-    local label = false
     if output then
-        label = output.label
+        if string.sub(output.name, 1, 4) == "greg" or "bart" and oreAddr.legacy then
+            output = output.damage
+        else
+            output = output.label
+        end
     end
-    return {label, toUse}
+    return {output, toUse}
 end
 
 local function checkDatabase()
@@ -631,7 +657,7 @@ function OreProcessing.configure(x, y, gui, graphics, renderer, page)
         {displayName = "West", value = changeSetting, args = {"West", 3, renderingData}},
     }
     table.insert(currentConfigWindow, gui.smallButton(x+15, y+5, orientation, gui.selectionBox, {x+15, y+5, onActivationOrientation}))
-    gui.multiAttributeList(x + 3, y + 6, page, currentConfigWindow, {{name = "Setup Assistance:", attribute = "help", type = "boolean", defaultValue = true}}, oreAddr)
+    gui.multiAttributeList(x + 3, y + 6, page, currentConfigWindow, {{name = "Setup Assistance:", attribute = "help", type = "boolean", defaultValue = true},{name = "Legacy Mode:", attribute = "legacy", type = "boolean", defaultValue = true}}, oreAddr)
     local _, ySize = graphics.context().gpu.getBufferSize(page)
     table.insert(currentConfigWindow, gui.bigButton(x+2, y+tonumber(ySize)-4, "Save Configuration", save))
     renderer.update()
@@ -650,15 +676,15 @@ function OreProcessing.update()
     if item then
         moveItem(item)
     end
-    if drawn then
+    --[[if drawn then
         graphics.context().gpu.setActiveBuffer(0)
     end
     if drawn and lastKeyword ~= searchKey.keyword then      --since there's a bigger bug when displayWindow() calls displayFilters() WITH the proper arg rather than without,
         displayFilters(searchKey.keyword)                   --I'm not going to have it called with said arg to avoid said bug
         lastKeyword = searchKey.keyword                     --even though it makes this section of code useless, /shrug
-    end
+    end]]
     if shouldListen.listen then
-        if input["name"] and input["filter"] then 
+        if input["name"] and input["filter"] and input["damage"] then 
             if string.match(tostring(input["filter"]), "[1234567]") then
                 event.push("filter_manipulation", savingMode)
                 shouldListen.listen = false
