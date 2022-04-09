@@ -234,7 +234,9 @@ local function addPage()
         {text = "7: Special Uses"}
     }
     if oreAddr.legacy then
-        table.insert(information, {},{text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()},{text = "For GT++ ores: enter 0 for damage"})
+        table.insert(information, {})
+        table.insert(information, {text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()})
+        table.insert(information, {text = "For GT++ ores: enter 0 for damage"})
         graphics.text(1, 6, "Damage Value:", colors.white, true)
         table.insert(attributeData, {name = "", attribute = "damage", type = "number", defaultValue = "None"})
     else
@@ -288,7 +290,9 @@ local function modifyPage(id)
         {text = "7: Special Uses"}
     }
     if oreAddr.legacy then
-        table.insert(information, {},{text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()},{text = "For GT++ ores: enter 0 for damage"})
+        table.insert(information, {})
+        table.insert(information, {text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()})
+        table.insert(information, {text = "For GT++ ores: enter 0 for damage"})
         graphics.text(1, 6, "Damage Value:  "..(filter.damage or "ERROR"), colors.white, true)
     end
     information[filter.filter + 1].color = gui.primaryColor()
@@ -335,7 +339,10 @@ local function page2()
         {text = "over newly incoming ones."}
     }
     if oreAddr.legacy then
-        table.insert(information, {},{text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()},{text = "Damage values can be found by pressing F3+H or enabling"},{text = "item IDs in NEI. It is the second number."})
+        table.insert(information, {})
+        table.insert(information, {text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()})
+        table.insert(information, {text = "Damage values can be found by pressing F3+H or enabling"})
+        table.insert(information, {text = "item IDs in NEI. It is the second number."})
     end
     gui.multiLineText(1, 1, secondPage, colors.white)
     context.gpu.setActiveBuffer(0)
