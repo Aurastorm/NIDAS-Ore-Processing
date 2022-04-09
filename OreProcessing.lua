@@ -81,13 +81,13 @@ local function filterByLabel(data, keyword)
 end
 
 local function searchFilter(keyword)
-    if type(keyword) == string then
+    if type(keyword) == "string" then
         for ID, entry in pairs(oreFilters) do
             if entry.name == keyword then
                 return ID
             end
         end
-    elseif type(keyword) == number then
+    elseif type(keyword) == "number" then
         for ID, entry in pairs(oreFilters) do
             if entry.damage == keyword then
                 return ID
@@ -167,14 +167,12 @@ end
 local function saveButton(_, mode)
     local context = graphics.context()
     local savemode
-    local name = input["name"]
-    local filter = input["filter"]
     if mode == "save" then
         savemode = addFilter
     elseif mode == "modify" then
         savemode = modifyFilter
     end
-    table.insert(pageBuffer, gui.bigButton(context.width - 13, 1, "Save Filter", savemode, {name, filter}))
+    table.insert(pageBuffer, gui.bigButton(context.width - 13, 1, "Save Filter", savemode, {input["name"], input["filter"], input["damage"]}))
     renderer.update()
 end
 
