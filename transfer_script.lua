@@ -9,7 +9,10 @@ for k, v in pairs(filters) do
     if not v.damage then
         term.setCursor(1, 2)
         io.write("Regarding \"", v.name, "\"...", "\nEnter its damage value: ")
-        v.damage = tonumber(string.gsub(term.read(), "\n", ""))
+        local input = term.read()
+        input = string.gsub(input, "\n", "")
+        v.damage = tonumber(input)
+        term.setCursor(1, 3)
         term.clearLine()
         term.setCursor(1, 2)
         term.clearLine()
