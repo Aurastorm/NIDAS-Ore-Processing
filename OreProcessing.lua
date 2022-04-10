@@ -238,7 +238,7 @@ local function addPage()
         graphics.text(1, 6, "Damage Value:", colors.white, true)
         table.insert(attributeData, {name = "", attribute = "damage", type = "number", defaultValue = "None"})
     else
-        input["damage"] = 0
+        input["damage"] = -1
     end
     gui.multiLineText(1, 7, information, colors.white)
     gui.multiAttributeList(middle + 16, 7, editor, nameInput, attributeData, input, _, context.width - middle + 16)
@@ -681,19 +681,19 @@ function OreProcessing.update()
     if item then
         moveItem(item)
     end
-    --[[if drawn then
+    if drawn then
         graphics.context().gpu.setActiveBuffer(0)
     end
     if drawn and lastKeyword ~= searchKey.keyword then      --since there's a bigger bug when displayWindow() calls displayFilters() WITH the proper arg rather than without,
         displayFilters(searchKey.keyword)                   --I'm not going to have it called with said arg to avoid said bug
         lastKeyword = searchKey.keyword                     --even though it makes this section of code useless, /shrug
-    end]]
+    end
     if shouldListen.listen then
-        if input["name"] and input["filter"] and input["damage"] then 
+        if input["name"] and input["filter"] and input["damage"] then
             if string.match(tostring(input["filter"]), "[1234567]") then
+                if input["damage"] == 0 then input["damage"] = -1 end
                 event.push("filter_manipulation", savingMode)
                 shouldListen.listen = false
-
             end
         end
     end
