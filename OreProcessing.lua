@@ -234,7 +234,8 @@ local function addPage()
     if oreAddr.legacy then
         table.insert(information, {text = nil})
         table.insert(information, {text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()})
-        table.insert(information, {text = "For GT++ ores: enter 0 for damage"})
+        table.insert(information, {text = "For GT++ ores: enter 0 or -1 for damage"})
+        table.insert(information, {text = "It will be converted to -1 automatically if set to 0"})
         graphics.text(1, 6, "Damage Value:", colors.white, true)
         table.insert(attributeData, {name = "", attribute = "damage", type = "number", defaultValue = "None"})
     else
@@ -290,7 +291,6 @@ local function modifyPage(id)
     if oreAddr.legacy then
         table.insert(information, {text = nil})
         table.insert(information, {text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()})
-        table.insert(information, {text = "For GT++ ores: enter 0 for damage"})
         graphics.text(1, 6, "Damage Value:  "..(filter.damage or "ERROR"), colors.white, true)
     end
     information[filter.filter + 1].color = gui.primaryColor()
