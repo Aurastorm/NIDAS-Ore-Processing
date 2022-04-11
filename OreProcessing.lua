@@ -337,10 +337,10 @@ local function page2()
         {text = "over newly incoming ones."}
     }
     if oreAddr.legacy then
-        table.insert(information, {text = nil})
-        table.insert(information, {text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()})
-        table.insert(information, {text = "Damage values can be found by pressing F3+H or enabling"})
-        table.insert(information, {text = "item IDs in NEI. It is the second number."})
+        table.insert(secondPage, {text = nil})
+        table.insert(secondPage, {text = "Legacy Mode detected; damage values required for use", color = gui.primaryColor()})
+        table.insert(secondPage, {text = "Damage values can be found by pressing F3+H or enabling"})
+        table.insert(secondPage, {text = "item IDs in NEI. It is the second number."})
     end
     gui.multiLineText(1, 1, secondPage, colors.white)
     context.gpu.setActiveBuffer(0)
