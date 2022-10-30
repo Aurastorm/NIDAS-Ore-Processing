@@ -570,6 +570,7 @@ end
 local function checkInventory(inventory)
     local output
     local toUse
+    local amount
     if transposer[1] == nil or transposer[2] == nil then
         return nil
     end
@@ -583,13 +584,14 @@ local function checkInventory(inventory)
         toUse = 2
     end
     if output then
+        amount = output.size
         if string.sub(output.name, 1, 4) == "greg" or "bart" and oreAddr.legacy then
             output = output.damage
         else
             output = output.label
         end
     end
-    return {output, toUse}
+    return {output, toUse, amount}
 end
 
 local function checkDatabase()
@@ -603,9 +605,9 @@ local function checkDatabase()
 end
 
 local function moveItem(output)
-    local label, _ = table.unpack(checkInventory(0))
-    local used, toUse = table.unpack(checkInventory(output))
-    if not used then
+    local label, _, amount1 = table.unpack(checkInventory(0))
+    local used, toUse, amount2 = table.unpack(checkInventory(output))
+    if not used or (label == used and amount1 + amount2 <= 64) then
         transposer[toUse].transferItem(transposerSides["work"][toUse], transposerSides[output])
         return true
     end
