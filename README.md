@@ -1,5 +1,9 @@
 # NIDAS Ore Processing
  This is a module for [NIDAS](https://github.com/S4mpsa/NIDAS), a piece of software for the OpenComputers Minecraft mod.
+ 
+ # NOTICE
+ 
+ THIS MODULE HAS BEEN MERGED INTO NIDAS AND THEREFORE THIS REPO WILL NOT BE UPDATED. TO USE THIS MODULE, JUST INSTALL NIDAS.
 
 ## Features
 * Sorts incoming ores to be processed as the user desires, using 7 different processing chains
